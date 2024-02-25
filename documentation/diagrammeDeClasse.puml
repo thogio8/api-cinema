@@ -1,27 +1,41 @@
 @startuml
-'https://plantuml.com/class-diagram
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
-
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
+class Salle {
+    - id: int
+    - nom: String
+    - nombreDePlaces: int
 }
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+class Seance {
+    - id: int
+    - dateProjection: DateTime
+    - tarifNormal: float
+    - tarifReduit: float
 }
+
+class Film {
+    - id: int
+    - titre: String
+    - duree: int
+}
+
+class Utilisateur {
+    - id: int
+    - username: String
+    - motDePasse: String
+    - roles: String[]
+}
+
+class Reservation {
+    - id: int
+    - nombreDePlaces: int
+    - dateReservation: DateTime
+    - montantTotal: float
+}
+
+Salle "1" -- "*" Seance : contient >
+Seance "1" -- "1" Film : concerne >
+Utilisateur "0..*" -- "1" Reservation : effectue >
+Seance "1" -- "*" Reservation : comprend >
 
 @enduml
