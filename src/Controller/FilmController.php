@@ -20,4 +20,13 @@ class FilmController extends AbstractController
             'content-type' => 'application/json'
         ]);
     }
+
+    #[Route('/films/{id}', name:'api_film_show')]
+    public function show(FilmRepository $filmRepository, SerializerInterface $serializer, int $id): Response{
+        $film = $filmRepository->findFilmWithSeancesSorted($id);
+        $filmSerialized = $serializer->serialize($film, 'json', ['groups' => 'show_film']);
+        return new Response($filmSerialized, 200, [
+            'content-type' => 'application/json'
+        ]);
+    }
 }

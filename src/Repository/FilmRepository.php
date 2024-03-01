@@ -21,6 +21,18 @@ class FilmRepository extends ServiceEntityRepository
         parent::__construct($registry, Film::class);
     }
 
+    public function findFilmWithSeancesSorted(int $filmId): ?Film
+    {
+        return $this->createQueryBuilder('f')
+            ->leftJoin('f.seances', 's')
+            ->addSelect('s')
+            ->where('f.id = :filmId')
+            ->setParameter('filmId', $filmId)
+            ->orderBy('s.dateProjection', 'ASC') // Tri par date de projection, de la plus récente à la plus ancienne
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Film[] Returns an array of Film objects
     //     */

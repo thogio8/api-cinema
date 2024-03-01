@@ -20,7 +20,6 @@ class FilmFixtures extends Fixture
             $film->setTitre($faker->movie);
             $film->setDuree(mt_rand(90, 210));
             $manager->persist($film);
-
             $this->addReference(self::FILM_REFERENCE.$i,$film);
         }
         $manager->flush();

@@ -14,18 +14,19 @@ class Film
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups('list_films')]
+    #[Groups(['list_films', 'show_film'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 150)]
-    #[Groups('list_films')]
+    #[Groups(['list_films', 'show_film'])]
     private ?string $titre = null;
 
     #[ORM\Column]
-    #[Groups('list_films')]
+    #[Groups(['list_films', 'show_film'])]
     private ?int $duree = null;
 
     #[ORM\OneToMany(targetEntity: Seance::class, mappedBy: 'film')]
+    #[Groups(['show_film'])]
     private Collection $seances;
 
     public function __construct()
