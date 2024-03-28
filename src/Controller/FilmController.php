@@ -14,7 +14,7 @@ class FilmController extends AbstractController
     #[Route('/films', name: 'api_films', methods: ['GET'])]
     public function index(FilmRepository $repository, SerializerInterface $serializer): Response
     {
-        $films = $repository->findAll();
+        $films = $repository->findFilmsAffiche();
         $filmsSerialized = $serializer->serialize($films, 'json', ['groups' => 'list_films']);
         return new Response($filmsSerialized, 200, [
             'content-type' => 'application/json'

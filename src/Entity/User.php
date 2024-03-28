@@ -6,10 +6,13 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity('email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -18,6 +21,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Email(
+        message: "L'email {{value}} n'est pas valide."
+    )]
+    #[Assert\NotBlank(
+        message: "L'email doit être renseigné"
+    )]
     private ?string $username = null;
 
     /**
@@ -30,6 +39,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(
+        message: "Le mot de passe doit être renseigné"
+    )]
+    #[Assert\Regex(
+        pattern:"/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/",
+        message:"Le mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial."
+    )]
     private ?string $password = null;
 
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'utilisateur')]

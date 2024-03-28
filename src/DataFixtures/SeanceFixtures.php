@@ -26,7 +26,7 @@ class SeanceFixtures extends Fixture implements DependentFixtureInterface
         $nombreDeSalles = $manager->getRepository(Salle::class)->count([]);
         for($i = 0; $i < 200; $i++){
             $seance = new Seance();
-            $date = $faker->dateTimeBetween("now", "+1 week");
+            $date = $faker->dateTimeBetween("now", "+2 week");
             $hour = mt_rand($startHour, $endHour);
             $minute = mt_rand(0,3) * 15;
             if($hour == $startHour){

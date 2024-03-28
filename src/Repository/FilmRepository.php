@@ -21,6 +21,15 @@ class FilmRepository extends ServiceEntityRepository
         parent::__construct($registry, Film::class);
     }
 
+    public function findFilmsAffiche(){
+        return $this->createQueryBuilder('f')
+            ->distinct(true)
+            ->join('f.seances','s')
+            ->where('s.dateProjection > CURRENT_TIMESTAMP()')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findFilmWithSeancesSorted(int $filmId): ?Film
     {
         return $this->createQueryBuilder('f')
